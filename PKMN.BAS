@@ -2,7 +2,7 @@
 'by Scott Cheney
 'cat333pokemon@aol.com
 'ё2004
-
+ON ERROR GOTO errore
 RANDOMIZE TIMER
 SCREEN 12
 PRINT "This is a Pok‚mon battle"
@@ -58,9 +58,17 @@ IF UCASE$(start$) = "D" THEN GOTO delete
 IF UCASE$(start$) = "M" THEN GOTO newgame
 IF UCASE$(start$) = "H" THEN GOTO cheat
 IF UCASE$(start$) = "E" THEN END
+IF UCASE$(start$) = "P" THEN GOTO p1
 LOOP
 
 newgame:
+CLS
+PRINT "Are you sure?"
+DO
+array$ = INPUT$(1)
+IF UCASE$(array$) = "Y" THEN EXIT DO
+IF UCASE$(array$) = "N" THEN GOTO 1
+LOOP
 CLS
 PRINT "Creating...Do not close application."
 PRINT : PRINT "Created - 00/12"
@@ -448,7 +456,7 @@ max:
 CLS
 IF YZ < 1 THEN GOTO errorc
 IF G = pik THEN GOTO noeffect
-N = N - 1
+YZ = YZ - 1
 Pok = G
 G = pik
 Pok = pik - Pok
@@ -702,6 +710,24 @@ PRINT : PRINT "I'm sorry! You can't afford that many."
 SLEEP 1
 GOTO storea
 
+errore:
+CLS
+PRINT "D'OH! Some kind of error has occured:"
+PRINT
+PRINT "No disk"
+PRINT "Not enough free space"
+PRINT "No file(s)"
+PRINT "Corrupted disk"
+PRINT "Corrupted file(s)"
+PRINT "Run-time"
+PRINT "Number overflow"
+PRINT "Read-only file(s)"
+PRINT "Et cetera"
+PRINT
+PRINT "Press any key to exit."
+SLEEP
+END
+
 win:
 wins = wins + 1
 level = level + 1
@@ -865,6 +891,35 @@ CLS
 GOTO continue
 
 delete:
+CLS
+PRINT "Are you sure you want to delete?"
+DO
+deleter$ = INPUT$(1)
+IF UCASE$(deleter$) = "Y" THEN EXIT DO
+IF UCASE$(deleter$) = "N" THEN GOTO 1
+LOOP
+CLS
+PLAY "T120O1L4P4C"
+PRINT "ЫЫЫЫЫЫЫЫ"
+PRINT "     ЫЫЫ"
+PRINT " ЫЫЫЫЫЫЫ"
+PRINT "     ЫЫЫ"
+PRINT "ЫЫЫЫЫЫЫЫ"
+PLAY "P4C"
+CLS
+PRINT " ЫЫЫЫЫЫЫ"
+PRINT "     ЫЫЫ"
+PRINT "ЫЫЫЫЫЫЫЫ"
+PRINT "ЫЫ"
+PRINT "ЫЫЫЫЫЫЫЫ"
+PLAY "P4C"
+CLS
+PRINT "  ЫЫЫ"
+PRINT " Ы ЫЫ"
+PRINT "   ЫЫ"
+PRINT "   ЫЫ"
+PRINT "ЫЫЫЫЫЫЫЫ"
+PLAY "P4L2G"
 CLS
 PRINT "Deleting...Do not close application."
 PRINT : PRINT "Deleted - 0/6"
@@ -1106,5 +1161,234 @@ CLOSE #4
 CLOSE #5
 CLOSE #6
 END
-                                 
+
+p1:
+start$ = INPUT$(1)
+IF UCASE$(start$) = "N" THEN GOTO newfiles
+IF UCASE$(start$) = "C" THEN GOTO continue
+IF UCASE$(start$) = "R" THEN GOTO rulestwo
+IF UCASE$(start$) = "D" THEN GOTO delete
+IF UCASE$(start$) = "M" THEN GOTO newgame
+IF UCASE$(start$) = "H" THEN GOTO cheat
+IF UCASE$(start$) = "E" THEN END
+IF UCASE$(start$) = "O" THEN GOTO p2
+CLS
+GOTO 1
+
+p2:
+start$ = INPUT$(1)
+IF UCASE$(start$) = "N" THEN GOTO newfiles
+IF UCASE$(start$) = "C" THEN GOTO continue
+IF UCASE$(start$) = "R" THEN GOTO rulestwo
+IF UCASE$(start$) = "D" THEN GOTO delete
+IF UCASE$(start$) = "M" THEN GOTO newgame
+IF UCASE$(start$) = "H" THEN GOTO cheat
+IF UCASE$(start$) = "E" THEN END
+IF UCASE$(start$) = "K" THEN GOTO p3
+CLS
+GOTO 1
+
+p3:
+start$ = INPUT$(1)
+IF UCASE$(start$) = "N" THEN GOTO newfiles
+IF UCASE$(start$) = "C" THEN GOTO continue
+IF UCASE$(start$) = "R" THEN GOTO rulestwo
+IF UCASE$(start$) = "D" THEN GOTO delete
+IF UCASE$(start$) = "M" THEN GOTO newgame
+IF UCASE$(start$) = "H" THEN GOTO cheat
+IF UCASE$(start$) = "E" THEN GOTO p4
+CLS
+GOTO 1
+
+p4:
+start$ = INPUT$(1)
+IF UCASE$(start$) = "N" THEN GOTO newfiles
+IF UCASE$(start$) = "C" THEN GOTO continue
+IF UCASE$(start$) = "R" THEN GOTO rulestwo
+IF UCASE$(start$) = "D" THEN GOTO delete
+IF UCASE$(start$) = "H" THEN GOTO cheat
+IF UCASE$(start$) = "E" THEN END
+IF UCASE$(start$) = "M" THEN GOTO p5
+CLS
+GOTO 1
+
+p5:
+start$ = INPUT$(1)
+IF UCASE$(start$) = "N" THEN GOTO newfiles
+IF UCASE$(start$) = "C" THEN GOTO continue
+IF UCASE$(start$) = "R" THEN GOTO rulestwo
+IF UCASE$(start$) = "D" THEN GOTO delete
+IF UCASE$(start$) = "M" THEN GOTO newgame
+IF UCASE$(start$) = "H" THEN GOTO cheat
+IF UCASE$(start$) = "E" THEN END
+IF UCASE$(start$) = "O" THEN GOTO p6
+CLS
+GOTO 1
+
+p6:
+start$ = INPUT$(1)
+IF UCASE$(start$) = "C" THEN GOTO continue
+IF UCASE$(start$) = "R" THEN GOTO rulestwo
+IF UCASE$(start$) = "D" THEN GOTO delete
+IF UCASE$(start$) = "M" THEN GOTO newgame
+IF UCASE$(start$) = "H" THEN GOTO cheat
+IF UCASE$(start$) = "E" THEN END
+IF UCASE$(start$) = "N" THEN GOTO p7
+CLS
+GOTO 1
+
+p7:
+CLS
+PRINT "You know my password!"
+PRINT
+PRINT "Here's the 'secret' menu:"
+PRINT
+PRINT "1  Main Menu"
+PRINT "2  Un-install Pok‚mon Battle (Everything!)"
+DO
+sav$ = INPUT$(1)
+IF UCASE$(sav$) = "1" THEN GOTO 1
+IF UCASE$(sav$) = "2" THEN GOTO EverythingIsGone
+LOOP
+
+EverythingIsGone:
+CLS
+PRINT "00/42 Deleted"
+KILL "A:\CONTENTS.RTF"
+LOCATE 1, 1
+PRINT "01"
+KILL "A:\PIKACHU.ICO"
+LOCATE 1, 1
+PRINT "02"
+KILL "A:\PKMNV0_1.BAS"
+LOCATE 1, 1
+PRINT "03"
+KILL "A:\PKMNV0_1.OBJ"
+LOCATE 1, 1
+PRINT "04"
+KILL "A:\PKMNV0_1.EXE"
+LOCATE 1, 1
+PRINT "05"
+KILL "A:\PKMNV0_2.BAS"
+LOCATE 1, 1
+PRINT "06"
+KILL "A:\PKMNV0_2.EXE"
+LOCATE 1, 1
+PRINT "07"
+KILL "A:\PKMNV0_2.OBJ"
+LOCATE 1, 1
+PRINT "08"
+KILL "A:\PKMNV1.BAS"
+LOCATE 1, 1
+PRINT "09"
+KILL "A:\PKMNV1.OBJ"
+LOCATE 1, 1
+PRINT "10"
+KILL "A:\PKMNV1.EXE"
+LOCATE 1, 1
+PRINT "11"
+KILL "A:\PKMNV2.BAS"
+LOCATE 1, 1
+PRINT "12"
+KILL "A:\PKMNV2.OBJ"
+LOCATE 1, 1
+PRINT "13"
+KILL "A:\PKMNV2.EXE"
+LOCATE 1, 1
+PRINT "14"
+KILL "A:\PKMNV2_1.BAS"
+LOCATE 1, 1
+PRINT "15"
+KILL "A:\PKMNV2_1.OBJ"
+LOCATE 1, 1
+PRINT "16"
+KILL "A:\PKMNV2_1.EXE"
+LOCATE 1, 1
+PRINT "17"
+KILL "A:\PKMNV2_2.BAS"
+LOCATE 1, 1
+PRINT "18"
+KILL "A:\PKMNV2_2.OBJ"
+LOCATE 1, 1
+PRINT "19"
+KILL "A:\PKMNV2_2.EXE"
+LOCATE 1, 1
+PRINT "20"
+KILL "A:\PKMNV3.BAS"
+LOCATE 1, 1
+PRINT "21"
+KILL "A:\PKMNV3.OBJ"
+LOCATE 1, 1
+PRINT "22"
+KILL "A:\PKMNV3.EXE"
+LOCATE 1, 1
+PRINT "23"
+KILL "A:\PKMNV4.BAS"
+LOCATE 1, 1
+PRINT "24"
+KILL "A:\PKMNV4.OBJ"
+LOCATE 1, 1
+PRINT "25"
+KILL "A:\PKMNV4.EXE"
+LOCATE 1, 1
+PRINT "26"
+KILL "A:\PKMNV5.BAS"
+LOCATE 1, 1
+PRINT "27"
+KILL "A:\README.TXT"
+LOCATE 1, 1
+PRINT "28"
+KILL "A:\RULES1.LIS"
+LOCATE 1, 1
+PRINT "29"
+KILL "A:\RULES2.LIS"
+LOCATE 1, 1
+PRINT "30"
+KILL "A:\RULESD.TXT"
+LOCATE 1, 1
+PRINT "31"
+KILL "A:\RULESW.DOC"
+LOCATE 1, 1
+PRINT "32"
+KILL "A:\VERSIOND.TXT"
+LOCATE 1, 1
+PRINT "33"
+KILL "A:\VERSIONW.DOC"
+LOCATE 1, 1
+PRINT "34"
+OPEN "A:\MONEY.DAT" FOR OUTPUT AS #2
+CLOSE
+KILL "A:\MONEY.DAT"
+LOCATE 1, 1
+PRINT "35"
+OPEN "A:\LEVEL.DAT" FOR OUTPUT AS #2
+CLOSE
+KILL "A:\LEVEL.DAT"
+LOCATE 1, 1
+PRINT "36"
+OPEN "A:\WIN.DAT" FOR OUTPUT AS #2
+CLOSE
+KILL "A:\WIN.DAT"
+LOCATE 1, 1
+PRINT "37"
+OPEN "A:\LOSE.DAT" FOR OUTPUT AS #2
+CLOSE
+KILL "A:\LOSE.DAT"
+LOCATE 1, 1
+PRINT "38"
+OPEN "A:\ENEMY.DAT" FOR OUTPUT AS #2
+CLOSE
+KILL "A:\ENEMY.DAT"
+LOCATE 1, 1
+PRINT "39"
+OPEN "A:\PIKACHU.DAT" FOR OUTPUT AS #2
+CLOSE
+KILL "A:\PIKACHU.DAT"
+LOCATE 1, 1
+PRINT "40"
+KILL "A:\PKMNV5.OBJ"
+LOCATE 1, 1
+PRINT "41"
+KILL "A:\PKMNV5.EXE"
+END
 

@@ -1,0 +1,129 @@
+Version History "Pokémon Battle"
+
+Version 0.1	0/10
+Screen 13
+5 Different Items
+4 Moves
+HP: 190 To 230
+A Million Bugs
+
+Version 0.2	1/10
+Screen 13
+5 Different Items
+4 Moves
+HP: 1900 To 2300
+Many Bugs
+
+Version 1		2/10
+Screen 13
+5 Different Items
+4 Moves
+HP: 2700 To 2000
+Many Bugs
+
+Version 2		3/10
+Screen 12
+5 Different Items
+4 Moves
+FORFEIT Function
+HP: 2700 To 2000
+HP Markers (1/4, 1/2, 3/4)
+Sound
+Title Music
+Some Bugs
+
+Version 2.1	4/10
+Screen 12
+Loading, Not Saving
+Continue
+SLEEP Command Used
+5 Different Items
+5 Moves (STRUGGLE Included)
+FORFEIT Function
+HP: 2700 To 2000
+HP Markers (1/4, 1/2, 3/4)
+Sound
+Title Music
+A Couple Bugs
+
+Version 2.2	6/10
+Screen 12
+Loading, Not Saving
+Continue
+SLEEP Command Used
+5 Different Items
+5 Moves (STRUGGLE Included)
+Item Store
+FORFEIT Function
+HP: 2700 To 2000
+HP Markers (1/4, 1/2)
+Sound
+Title Music
+A Couple Bugs
+
+Version 3		8/10
+Screen 12
+SAVING!!!
+Continue
+Level Increases
+Money For Winning
+HP Increases
+Totals Wins/Losses
+SLEEP Command Used A Lot
+Attack Based On Level
+Items Based On Level
+6 Different Items
+5 Moves (STRUGGLE Included)
+Pikachu Faints On Recoil
+Money Halved When Losing
+Start With Low HP
+FORFEIT Function (1/2 $)
+HP Markers (1/4, 1/2)
+Organized Menus
+Color
+Sound
+Title Music
+NO BUGS!!
+
+Version 4		9/10
+Screen 12
+SAVING!!!
+Continue
+Cheat Mode
+Level Increases
+Money For Winning
+HP Increases
+Totals Wins/Losses
+SLEEP Command Used A Lot
+6 Different Items
+5 Moves (STRUGGLE Included)
+FORFEIT Function
+HP Markers (1/4, 1/2)
+Organized Menus
+Color
+Sound
+Title Music
+No Bugs!!
+
+Version 5		9/10
+Screen 12
+SAVING!!!
+Continue
+Delete Confirmation
+Cheat Mode
+Level Increases
+Money For Winning
+HP Increases
+Totals Wins/Losses
+SLEEP Command Used A Lot
+6 Different Items
+5 Moves (STRUGGLE Included)
+Error Trapping
+Un-install Feature
+FORFEIT Function
+HP Markers (1/4, 1/2)
+Organized Menus
+Color
+Sound
+Title Music
+No Bugs!!
