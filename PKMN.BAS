@@ -37,34 +37,81 @@ LOCATE 6, 8
 PRINT "!"
 
 1
-PRINT "(N)ew Game"
-PRINT "(C)ontinue"
+setup = 0
+PRINT "(N)ew Game START"
+PRINT "(C)ontinue START *"
+PRINT "(M)ake New START *"
+PRINT
+PRINT "(R)ules/Instructions"
+PRINT "(D)elete Saved Game"
+PRINT "(H)ack/Cheat"
+PRINT "(E)xit"
+PRINT
+PRINT
+PRINT "* Past files are required. If no past files exist, make new ones."
 DO
 start$ = INPUT$(1)
-IF UCASE$(start$) = "N" THEN GOTO newgame
+IF UCASE$(start$) = "N" THEN GOTO newfiles
 IF UCASE$(start$) = "C" THEN GOTO continue
+IF UCASE$(start$) = "R" THEN GOTO rulestwo
+IF UCASE$(start$) = "D" THEN GOTO delete
+IF UCASE$(start$) = "M" THEN GOTO newgame
+IF UCASE$(start$) = "H" THEN GOTO cheat
+IF UCASE$(start$) = "E" THEN END
 LOOP
 
 newgame:
-PRINT "Creating files. Please wait."
+CLS
+PRINT "Creating...Do not close application."
+PRINT : PRINT "Created - 00/12"
+KILL "A:\PIKACHU.DAT"
+LOCATE 3, 12
+PRINT "1"
+KILL "A:\MONEY.DAT"
+LOCATE 3, 12
+PRINT "2"
+KILL "A:\ENEMY.DAT"
+LOCATE 3, 12
+PRINT "3"
+KILL "A:\LEVEL.DAT"
+LOCATE 3, 12
+PRINT "4"
+KILL "A:\WIN.DAT"
+LOCATE 3, 12
+PRINT "5"
+KILL "A:\LOSE.DAT"
+LOCATE 3, 12
+PRINT "6"
 OPEN "A:\PIKACHU.DAT" FOR OUTPUT AS #1
 PRINT #1, 23
 CLOSE
+LOCATE 3, 12
+PRINT "7"
 OPEN "A:\MONEY.DAT" FOR OUTPUT AS #2
 PRINT #2, 3000
 CLOSE
+LOCATE 3, 12
+PRINT "8"
 OPEN "A:\ENEMY.DAT" FOR OUTPUT AS #3
 PRINT #3, 17
 CLOSE
+LOCATE 3, 12
+PRINT "9"
 OPEN "A:\LEVEL.DAT" FOR OUTPUT AS #4
 PRINT #4, 1
 CLOSE
+LOCATE 3, 11
+PRINT "10"
 OPEN "A:\WIN.DAT" FOR OUTPUT AS #5
 PRINT #5, 0
 CLOSE
+LOCATE 3, 12
+PRINT "1"
 OPEN "A:\LOSE.DAT" FOR OUTPUT AS #6
 PRINT #6, 0
 CLOSE
+LOCATE 3, 12
+PRINT "2"
 
 continue:
 OPEN "A:\PIKACHU.DAT" FOR INPUT AS #1
@@ -76,7 +123,7 @@ INPUT #2, cash
 CLOSE
 OPEN "A:\ENEMY.DAT" FOR INPUT AS #3
 INPUT #3, bul
-I = bul
+i = bul
 CLOSE
 OPEN "A:\LEVEL.DAT" FOR INPUT AS #4
 INPUT #4, level
@@ -91,7 +138,7 @@ CLOSE
 starts:
 PRINT "Are you ready??? Press any key to begin."
 SLEEP 9999
-C = 30
+c = 30
 D = 10
 E = 30
 F = 20
@@ -121,6 +168,21 @@ IF level > 3 THEN YZ = 1
 IF level > 14 THEN YZ = 0
 slpa = 3
 solarbeam = 0
+shockpow = 23
+shockpow = (shockpow * level) / 10
+shockpower = CLNG(shockpow)
+thunderpow = 67
+thunderpow = thunderpow * level / 10
+thunderpower = CLNG(thunderpow)
+quickpow = 45
+quickpow = quickpow * level / 10
+quickpower = CLNG(quickpow)
+slampow = 91
+slampow = slampow * level / 10
+slampower = CLNG(slampow)
+strpow = 20
+strpow = strpow * level / 10
+strpower = CLNG(strpow)
 
 begin:
 CLS
@@ -139,15 +201,15 @@ aa$ = ""
 bb$ = ""
 IF G < pik * .5 THEN aa$ = "    « HP"
 IF G < pik * .25 THEN aa$ = "    ¬ HP"
-IF I < bul * .5 THEN bb$ = "    « HP"
-IF I < bul * .25 THEN bb$ = "    ¬ HP"
+IF i < bul * .5 THEN bb$ = "    « HP"
+IF i < bul * .25 THEN bb$ = "    ¬ HP"
 PRINT "PIKACHU -", G; H$, aa$
-PRINT "BULBASAUR -", I; J$, bb$
-PRINT "MONEY:"; cash; " LEVEL:"; level; " WINS:"; wins; " LOSSES:"; losses
+PRINT "BULBASAUR -", i; J$, bb$
+PRINT "POK $:"; cash; " LEVEL:"; level; " WINS:"; wins; " LOSSES:"; losses
 PRINT
 COLOR 14
 PRINT "1 THUNDERSHOCK - ELE                              <<< MOVES"
-PRINT "", C
+PRINT "", c
 PRINT "2 THUNDER      - ELE"
 PRINT "", D
 PRINT "3 QUICK ATTACK - NRM"
@@ -206,27 +268,24 @@ IF UCASE$(xb$) = "D" THEN GOTO begin
 LOOP
 
 shock:
-IF C < 1 THEN GOTO errora
+IF c < 1 THEN GOTO errora
 IF H$ = "SLP" THEN GOTO slp
 CLS
 PRINT "Pikachu used THUNDERSHOCK!"
-C = C - 1
+c = c - 1
 IF critical = 1 THEN GOTO cshock
 GOTO shockb
 cshock:
-shockpow = 23
-shockpow = shockpow * level / 10
-shockpower = CLNG(shockpow)
-I = I - shockpower
+i = i - shockpower
 PRINT "It's a Critical Hit!"
 shockb:
 IF J$ = "PRZ" THEN GOTO shocka
 IF prz = 1 THEN J$ = "PRZ"
 IF prz = 1 THEN PRINT "Enemy Bulbasaur was paralyzed!"
 shocka:
-I = I - shockpower
+i = i - shockpower
 PLAY "O1L64CEL32G"
-IF I < 1 THEN GOTO win
+IF i < 1 THEN GOTO win
 PRINT "It's not very effective."
 GOTO moved
 
@@ -240,10 +299,7 @@ IF hitmissb = 1 THEN GOTO miss
 IF critical = 1 THEN GOTO cthunder
 GOTO thunderb
 cthunder:
-thunderpow = 67
-thunderpow = thunderpow * level / 10
-thunderpower = CLNG(thunderpow)
-I = I - thunderpower
+i = i - thunderpower
 PRINT "It's a Critical Hit!"
 thunderb:
 IF J$ = "PRZ" THEN GOTO thundera
@@ -254,9 +310,9 @@ IF prz = 1 THEN PRINT "Enemy Bulbasaur was paralyzed!"
 IF prz = 2 THEN PRINT "Enemy Bulbasaur was paralyzed!"
 IF prz = 3 THEN PRINT "Enemy Bulbasaur was paralyzed!"
 thundera:
-I = I - thunderpower
+i = i - thunderpower
 PLAY "O1L64CEL32G"
-IF I < 1 THEN GOTO win
+IF i < 1 THEN GOTO win
 PRINT "It's not very effective."
 GOTO moved
 
@@ -269,15 +325,12 @@ E = E - 1
 IF critical = 1 THEN GOTO cqattack
 GOTO qattackb
 cqattack:
-quickpow = 45
-quickpow = quickpow * level / 10
-quickpower = CLNG(quickpow)
-I = I - quickpower
+i = i - quickpower
 PRINT "It's a Critical Hit!"
 qattackb:
-I = I - quickpower
+i = i - quickpower
 PLAY "O1L64CEL32G"
-IF I < 1 THEN GOTO win
+IF i < 1 THEN GOTO win
 GOTO moved
 
 slam:
@@ -290,19 +343,16 @@ IF hitmissb = 1 THEN GOTO miss
 IF critical = 1 THEN GOTO cslam
 GOTO slamb
 cslam:
-slampow = 91
-slampow = slampow * level / 10
-slampower = CLNG(slampow)
-I = I - slampower
+i = i - slampower
 PRINT "It's a Critical Hit!"
 slamb:
-I = I - slampower
+i = i - slampower
 PLAY "O1L64CEL32G"
-IF I < 1 THEN GOTO win
+IF i < 1 THEN GOTO win
 GOTO moved
 
 struggle:
-IF 0 = C + D + E + F THEN GOTO strugglea
+IF 0 = c + D + E + F THEN GOTO strugglea
 GOTO begin
 strugglea:
 IF H$ = "SLP" THEN GOTO slp
@@ -311,18 +361,16 @@ PRINT "Pikachu used STRUGGLE!"
 IF critical = 1 THEN GOTO cstruggle
 GOTO struggleb
 cstruggle:
-strpow = strpow * level / 10
-strpower = CLNG(strpow)
-I = I - strpower
+i = i - strpower
 PRINT "It's a Critical Hit!"
 struggleb:
-I = I - strpower
+i = i - strpower
 PLAY "O1L64CEL32G"
 PRINT "Pikachu got hit by recoil."
 G = G - strpower / 8
 IF critical = 1 THEN G = G - 8
 IF G < 1 THEN GOTO lose
-IF I < 1 THEN GOTO win
+IF i < 1 THEN GOTO win
 GOTO moved
 
 spotion:
@@ -367,9 +415,9 @@ IF UCASE$(B$) = "3" THEN GOTO qattackether
 IF UCASE$(B$) = "4" THEN GOTO slamether
 GOTO kk
 shockether:
-7 IF C = 30 THEN GOTO noeffecta
-C = C + 10
-IF C > 30 THEN C = 30
+7 IF c = 30 THEN GOTO noeffecta
+c = c + 10
+IF c > 30 THEN c = 30
 PLAY "T250O2L8CCL64<CDEFGAB>CDEFGAB>CDEFGAB>C"
 GOTO etherb
 thunderether:
@@ -453,7 +501,7 @@ PRINT "7 HP Up        - 9800 - MAX HP +53"
 PRINT "8 Main Menu"
 DO
 buy$ = INPUT$(1)
-IF UCASE$(buy$) = "1" THEN GOTO buypotion
+3 IF UCASE$(buy$) = "1" THEN GOTO buypotion
 IF UCASE$(buy$) = "2" THEN GOTO buysuper
 IF UCASE$(buy$) = "3" THEN GOTO buyhyper
 IF UCASE$(buy$) = "5" THEN GOTO buyfull
@@ -518,8 +566,8 @@ IF totalf > cash THEN GOTO errord
 cash = cash - totalf
 pika = 53 * hpamount
 pik = pik + pika
-OPEN "A:\PIKACHU.DAT" FOR INPUT AS #1
-INPUT #1, pik
+OPEN "A:\PIKACHU.DAT" FOR OUTPUT AS #1
+PRINT #1, pik
 CLOSE
 GOTO storea
 
@@ -541,19 +589,21 @@ IF bulbattack = 2 THEN GOTO two
 IF bulbattack = 3 THEN GOTO three
 
 zero:
+tacklepow = (57 * bul) / 350
+tacklepower = CLNG(tacklepow)
 PRINT "Enemy Bulbasaur used TACKLE!"
 IF J$ = "PRZ" THEN GOTO tackle
 GOTO tackled
 tackle:
 IF przatk = 1 THEN GOTO errorb
 tackled:
-G = G - 57
+G = G - tacklepower
 IF G < 1 THEN GOTO lose
 IF hitmissa = 1 THEN GOTO missb
 IF criticalbulb = 1 THEN GOTO ctackle
 GOTO tacklea
 ctackle:
-G = G - 57
+G = G - tacklepower
 PRINT "It's a Critical Hit!"
 tacklea:
 PLAY "O1L64CEL32G"
@@ -578,19 +628,21 @@ PRINT "Pikachu is already asleep."
 GOTO bottom
 
 two:
+razorpow = (94 * bul) / 350
+razorpower = CLNG(razorpow)
 PRINT "Enemy Bulbasaur used RAZOR LEAF!"
 IF J$ = "PRZ" THEN GOTO razord
 GOTO leaf
 razord:
 IF przatk = 1 THEN GOTO errorb
 leaf:
-G = G - 94
+G = G - razorpower
 IF G < 1 THEN GOTO lose
 IF hitmissa = 1 THEN GOTO missb
 IF criticalbulb = 1 THEN GOTO cleaf
 GOTO leafa
 cleaf:
-G = G - 93
+G = G - razorpower
 PRINT "It's a Critical Hit!"
 leafa:
 PLAY "O1L64CEL32G"
@@ -598,6 +650,8 @@ IF G < 1 THEN GOTO lose
 GOTO bottom
 
 three:
+solarpow = (204 * bul) / 350
+solarpower = CLNG(solarpow)
 IF solarbeam = 0 THEN GOTO beamload
 PRINT "Enemy Bulbasaur used SOLARBEAM!"
 PLAY "O1L64CEL32G"
@@ -607,13 +661,13 @@ GOTO beam
 beamb:
 IF przatk = 1 THEN GOTO errorb
 beam:
-G = G - 204
+G = G - solarpower
 IF G < 1 THEN GOTO lose
 IF hitmissa = 1 THEN GOTO missb
 IF criticalbulb = 1 THEN GOTO cbeam
 GOTO beama
 cbeam:
-G = G - 204
+G = G - solarpower
 PRINT "It's a Critical Hit!"
 beama:
 IF G < 1 THEN GOTO lose
@@ -623,7 +677,7 @@ PRINT "Enemy Bulbasaur is taking in sunlight!"
 solarbeam = solarbeam + 1
 
 bottom:
-PRINT "Pikachu - "; G, "Bulbasaur - "; I
+PRINT "Pikachu - "; G, "Bulbasaur - "; i
 
 bottoma:
 SLEEP 3.5
@@ -653,19 +707,19 @@ wins = wins + 1
 level = level + 1
 cashb = G * 3
 casha = cash + cashb
-I = 0
+i = 0
 pik = pik + 23
 bul = bul + 7
 PRINT : PRINT "Enemy Bulbasaur fainted!"
 PRINT "You've won the Pok‚mon battle!"
-PRINT "You have earned"; cashb; "money for winning!"
+PRINT "You have earned"; cashb; "Pok‚ Dollars for winning!"
 PRINT "Your level is now"; level; "!"
-PRINT "HP: (PIK/BUL)"; G; I
+PRINT "HP: (PIK/BUL)"; G; i
 PLAY "T120O3L4C<L8GGL4G+L2GL4B>C"
 PRINT "Press any key to save."
 SLEEP 1000
 CLS
-PRINT "Saving...Do not break application."
+PRINT "Saving...Do not close application."
 PRINT : PRINT "Saved - 0/5"
 OPEN "A:\PIKACHU.DAT" FOR OUTPUT AS #1
 PRINT #1, pik
@@ -693,7 +747,7 @@ CLOSE
 LOCATE 3, 9
 PRINT "5"
 PLAY "O3L32C<G>C>L8E"
-PRINT "Game Saved. Press any key."
+PRINT "Game saved. Press any key."
 GOTO again
 
 lose:
@@ -705,12 +759,12 @@ cash = cash / 2
 cash = CLNG(cash)
 losses = losses + 1
 PRINT "You've lost the Pok‚mon battle!"
-PRINT "HP: (PIK/BUL)"; G; I
+PRINT "HP: (PIK/BUL)"; G; i
 PLAY "T150O1L4L4CCL8CL4CDL8CL4CL8<BL4BL8B-L2B"
 PRINT "Press any key to save"
 SLEEP 1000
 CLS
-PRINT "Saving...Do not break application."
+PRINT "Saving...Do not close application."
 PRINT : PRINT "Saved - 0/3"
 OPEN "A:\MONEY.DAT" FOR OUTPUT AS #2
 PRINT #2, cash
@@ -728,7 +782,7 @@ CLOSE
 LOCATE 3, 9
 PRINT "3"
 PLAY "O3L32C<G>C>L8E"
-PRINT "Game Saved. Press any key."
+PRINT "Game saved. Press any key."
 GOTO again
 
 moved:
@@ -765,6 +819,174 @@ H$ = "NRM"
 PRINT "Pikachu woke up!"
 slpa = 3
 GOTO Bulbasaur
+
+rulestwo:
+setup = 1
+GOTO rules
+
+newfiles:
+CLS
+PRINT "Creating...Do not close application."
+PRINT : PRINT "Created - 0/6"
+OPEN "A:\PIKACHU.DAT" FOR OUTPUT AS #1
+PRINT #1, 23
+CLOSE
+LOCATE 3, 11
+PRINT "1"
+OPEN "A:\MONEY.DAT" FOR OUTPUT AS #2
+PRINT #2, 3000
+CLOSE
+LOCATE 3, 11
+PRINT "2"
+OPEN "A:\ENEMY.DAT" FOR OUTPUT AS #3
+PRINT #3, 17
+CLOSE
+LOCATE 3, 11
+PRINT "3"
+OPEN "A:\LEVEL.DAT" FOR OUTPUT AS #4
+PRINT #4, 1
+CLOSE
+LOCATE 3, 11
+PRINT "4"
+OPEN "A:\WIN.DAT" FOR OUTPUT AS #5
+PRINT #5, 0
+CLOSE
+LOCATE 3, 11
+PRINT "5"
+OPEN "A:\LOSE.DAT" FOR OUTPUT AS #6
+PRINT #6, 0
+CLOSE
+LOCATE 3, 11
+PRINT "6"
+PLAY "O2T120L16C>L8C"
+PRINT "Game created. Press any key."
+SLEEP 1000
+CLS
+GOTO continue
+
+delete:
+CLS
+PRINT "Deleting...Do not close application."
+PRINT : PRINT "Deleted - 0/6"
+KILL "A:\PIKACHU.DAT"
+LOCATE 3, 11
+PRINT "1"
+KILL "A:\MONEY.DAT"
+LOCATE 3, 11
+PRINT "2"
+KILL "A:\ENEMY.DAT"
+LOCATE 3, 11
+PRINT "3"
+KILL "A:\LEVEL.DAT"
+LOCATE 3, 11
+PRINT "4"
+KILL "A:\WIN.DAT"
+LOCATE 3, 11
+PRINT "5"
+KILL "A:\LOSE.DAT"
+LOCATE 3, 11
+PRINT "6"
+FOR c% = 1000 TO 50 STEP -5
+SOUND c%, c% / 3000
+NEXT c%
+PLAY "O1T120L4C"
+PRINT "Game deleted. Press any key."
+SLEEP 1000
+CLS
+GOTO 1
+
+cheat:
+CLS
+PRINT "You want to cheat, do you? What do you want to edit?"
+PRINT "Please edit ALL values."
+PRINT
+PRINT "# EDITABLES        GAMEPLAY EFFECTS"
+PRINT "1 Your Max HP    - How much time you can stay in"
+PRINT "2 Enemy's Max HP - How much time Bulbasaur can stay in"
+PRINT "3 Your Money     - How much you can buy"
+PRINT "4 Your Level     - How much damage you inflict"
+PRINT "5 Win Count      - Nothing"
+PRINT "6 Loss Count     - Nothing"
+PRINT
+PRINT "7 Leave and save changes"
+PRINT "8 Leave and not save changes"
+DO
+ch$ = INPUT$(1)
+IF UCASE$(ch$) = "1" THEN GOTO hpedit
+IF UCASE$(ch$) = "2" THEN GOTO buledit
+IF UCASE$(ch$) = "3" THEN GOTO monedit
+IF UCASE$(ch$) = "4" THEN GOTO levedit
+IF UCASE$(ch$) = "5" THEN GOTO winedit
+IF UCASE$(ch$) = "6" THEN GOTO losedit
+IF UCASE$(ch$) = "7" THEN GOTO savecheat
+IF UCASE$(ch$) = "8" THEN GOTO aaaaaa
+LOOP
+hpedit:
+CLS
+INPUT "Your HP: ", valone
+GOTO cheat
+buledit:
+CLS
+INPUT "Enemy's HP: ", valthr
+GOTO cheat
+monedit:
+CLS
+INPUT "Your Money: ", valtwo
+GOTO cheat
+levedit:
+CLS
+INPUT "Your Level: ", valfou
+GOTO cheat
+winedit:
+CLS
+INPUT "Win Count: ", valfiv
+GOTO cheat
+losedit:
+CLS
+INPUT "Lose Count: ", valsix
+GOTO cheat
+savecheat:
+CLS
+PRINT "Saving...Do not close application."
+PRINT : PRINT "Saved - 0/6"
+OPEN "A:\PIKACHU.DAT" FOR OUTPUT AS #1
+PRINT #1, valone
+CLOSE
+LOCATE 3, 9
+PRINT "1"
+OPEN "A:\MONEY.DAT" FOR OUTPUT AS #2
+PRINT #2, valtwo
+CLOSE
+LOCATE 3, 9
+PRINT "2"
+OPEN "A:\ENEMY.DAT" FOR OUTPUT AS #3
+PRINT #3, valthr
+CLOSE
+LOCATE 3, 9
+PRINT "3"
+OPEN "A:\LEVEL.DAT" FOR OUTPUT AS #4
+PRINT #4, valfou
+CLOSE
+LOCATE 3, 9
+PRINT "4"
+OPEN "A:\WIN.DAT" FOR OUTPUT AS #5
+PRINT #5, valfiv
+CLOSE
+LOCATE 3, 9
+PRINT "5"
+OPEN "A:\LOSE.DAT" FOR OUTPUT AS #6
+PRINT #6, valsix
+CLOSE
+LOCATE 3, 9
+PRINT "6"
+PLAY "O2T120L16C>L8C"
+PRINT "Cheats saved. Press any key."
+SLEEP 1000
+CLS
+GOTO 1
+aaaaaa:
+CLS
+GOTO 1
 
 rules:
 CLS
@@ -862,6 +1084,8 @@ PRINT rulescg$
 PRINT rulesch$
 PRINT rulesci$
 SLEEP 1000
+CLS
+IF setup = 1 THEN GOTO 1
 GOTO begin
 
 again:
