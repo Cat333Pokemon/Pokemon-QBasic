@@ -1,13 +1,38 @@
-'Simulates the battle of two Pokemon, Pikachu and Bulbasaur
+'Simulates the battle of two Pok‚mon, Pikachu and Bulbasaur
 'by Scott Cheney
 'cat333pokemon@aol.com
 RANDOMIZE TIMER
-SCREEN 13
-PRINT "This is a Pokemon battle!!"
+SCREEN 12
+PRINT "This is a Pok‚mon battle"
+PLAY "T192O2L8DDL4AL8DDL4B-L8DDL4AL8DDL4F+"
 PRINT "Today's rivals are:  PIKACHU"
-0 PRINT "                        &"
+PRINT "                        &"
 PRINT "                    BULBASAUR"
 PRINT
+PLAY "L8DDL4AL8DD>L4C+L2D<D>C<CL8DDL4AL8DDL4B-"
+PLAY "L8D"
+PRINT "P"
+PLAY "D"
+LOCATE 6, 2
+PRINT "o"
+PLAY "L4>C"
+LOCATE 6, 3
+PRINT "k"
+PLAY "<L8D"
+LOCATE 6, 4
+PRINT "e"
+PLAY "D"
+LOCATE 6, 5
+PRINT "m"
+PLAY ">L4C+"
+LOCATE 6, 6
+PRINT "o"
+PLAY "L1D"
+LOCATE 6, 7
+PRINT "n"
+PLAY ">L4DT250"
+LOCATE 6, 8
+PRINT "!"
 INPUT "Are you ready??? Press enter to begin.", a
 C = 30
 D = 10
@@ -21,13 +46,13 @@ K = 1
 L = 2
 M = 1
 N = 3
-x = 2
+X = 2
 slpa = 3
 solarbeam = 0
 
 begin:
-IF G > 2700 THEN G = 2700
 CLS
+IF G > 2700 THEN G = 2700
 RANDOMIZE TIMER
 hitmissa = INT(RND * 10) + 1
 hitmissb = INT(RND * 2) + 1
@@ -37,10 +62,19 @@ razorch = INT(RND * 3) + 1
 bulbattack = INT(RND * 4) + 1
 przatk = INT(RND * 2) + 1
 criticalbulb = INT(RND * 10) + 1
+PLAY "T120"
+IF G > 2700 THEN G = 2700
+IF I > 2000 THEN I = 2000
+aa$ = ""
+bb$ = ""
+IF G < 1350 THEN aa$ = "    « HP"
+IF G < 675 THEN aa$ = "    ¬ HP"
+IF I < 1000 THEN bb$ = "    « HP"
+IF I < 500 THEN bb$ = "    ¬ HP"
 PRINT "STATUS:"
-PRINT "PIKACHU -", G; H$
-PRINT "BULBASAUR -", I; J$
-PRINT : PRINT : PRINT "WHICH ATTACK/ITEM?"
+PRINT "PIKACHU -", G; H$, aa$
+PRINT "BULBASAUR -", I; J$, bb$
+PRINT "WHICH ATTACK/ITEM?"
 PRINT "1 THUNDERSHOCK - ELE"
 PRINT "", C
 PRINT "2 THUNDER      - ELE"
@@ -49,27 +83,30 @@ PRINT "3 QUICK ATTACK - NRM"
 PRINT "", E
 PRINT "4 SLAM         - NRM"
 PRINT "", F
-PRINT "5 SUPER POTION - +50 HP"
-PRINT "", K
-PRINT "6 FULL HEAL    - ERASE SPECIAL STATUS"
-PRINT "", L
-PRINT "7 MAX ETHER    - RESTORE ALL PP"
-PRINT "", M
-PRINT "8 POTION       - +20 HP"
+PRINT "5 POTION       - +20 HP"
 PRINT "", N
-PRINT "9 HYPER POTION - +200 HP"
-PRINT "", x
+PRINT "6 SUPER POTION - +50 HP"
+PRINT "", K
+PRINT "7 HYPER POTION - +200 HP"
+PRINT "", X
+PRINT "8 FULL HEAL    - ERASE SPECIAL STATUS"
+PRINT "", L
+PRINT "9 ETHER        - RESTORE 10 PP"
+PRINT "", M
+PRINT "0 FORFEIT      - LOSE IMMEDIATELY"
+PRINT "", " 1"
 DO
 B$ = INPUT$(1)
 IF UCASE$(B$) = "1" THEN GOTO shock
 IF UCASE$(B$) = "2" THEN GOTO thunder
 IF UCASE$(B$) = "3" THEN GOTO qattack
 IF UCASE$(B$) = "4" THEN GOTO slam
-IF UCASE$(B$) = "5" THEN GOTO spotion
-IF UCASE$(B$) = "6" THEN GOTO fullheal
-IF UCASE$(B$) = "7" THEN GOTO maxether
-IF UCASE$(B$) = "8" THEN GOTO potion
-IF UCASE$(B$) = "9" THEN GOTO hyper
+IF UCASE$(B$) = "5" THEN GOTO potion
+IF UCASE$(B$) = "6" THEN GOTO spotion
+IF UCASE$(B$) = "7" THEN GOTO hyper
+IF UCASE$(B$) = "8" THEN GOTO fullheal
+IF UCASE$(B$) = "9" THEN GOTO ether
+IF UCASE$(B$) = "0" THEN GOTO losea
 LOOP
 
 shock:
@@ -91,7 +128,7 @@ shocka:
 I = I - 22
 IF I < 1 THEN GOTO win
 PRINT "It's not very effective."
-GOTO bulbasaur
+GOTO moved
 
 thunder:
 IF H$ = "SLP" THEN GOTO slp
@@ -117,7 +154,7 @@ thundera:
 I = I - 68
 IF I < 1 THEN GOTO win
 PRINT "It's not very effective."
-GOTO bulbasaur
+GOTO moved
 
 qattack:
 IF H$ = "SLP" THEN GOTO slp
@@ -133,7 +170,7 @@ PRINT "It's a Critical Hit!"
 qattackb:
 I = I - 45
 IF I < 1 THEN GOTO win
-GOTO bulbasaur
+GOTO moved
 
 slam:
 IF H$ = "SLP" THEN GOTO slp
@@ -150,29 +187,32 @@ PRINT "It's a Critical Hit!"
 slamb:
 I = I - 91
 IF I < 1 THEN GOTO win
-GOTO bulbasaur
+GOTO moved
 
 spotion:
 CLS
 IF K < 1 THEN GOTO errorc
+IF G = 2700 THEN GOTO noeffect
 K = K - 1
-V = 2700 - G
-IF V > 50 THEN V = 50
-PRINT "Pikachu gained"; O; "HP!"
-V = G + V
-GOTO bulbasaur
+GA = G
+G = G + 50
+IF G > 2700 THEN G = 2700
+GAA = G - GA
+PRINT "Pikachu gained"; GAA; "HP!"
+GOTO item
 
 fullheal:
 CLS
 IF L < 1 THEN GOTO errorc
+IF H$ = "NRM" THEN GOTO noeffect
 L = L - 1
 IF H$ = "NRM" THEN GOTO begin
 H$ = "NRM"
 PRINT "Pikachu's status returned!"
 slp = 3
-GOTO bulbasaur
+GOTO item
 
-maxether:
+ether:
 CLS
 IF M < 1 THEN GOTO errorc
 M = M - 1
@@ -182,45 +222,56 @@ PRINT "THUNDER"
 PRINT "QUICK ATTACK"
 PRINT "SLAM"
 B$ = INPUT$(1)
-IF UCASE$(B$) = "1" THEN GOTO shockmether
-IF UCASE$(B$) = "2" THEN GOTO thundermether
-IF UCASE$(B$) = "3" THEN GOTO qattackmether
-IF UCASE$(B$) = "4" THEN GOTO slammether
-shockmether:
-C = 30
-GOTO maxetherb
-thundermether:
+IF UCASE$(B$) = "1" THEN GOTO shockether
+IF UCASE$(B$) = "2" THEN GOTO thunderether
+IF UCASE$(B$) = "3" THEN GOTO qattackether
+IF UCASE$(B$) = "4" THEN GOTO slamether
+shockether:
+IF C = 30 THEN GOTO noeffect
+C = C + 10
+IF C > 30 THEN C = 30
+GOTO etherb
+thunderether:
+IF D = 10 THEN GOTO noeffect
 D = 10
-GOTO maxetherb
-qattackmether:
-E = 30
-GOTO maxetherb
-slammether:
-F = 20
-maxetherb:
+GOTO etherb
+qattackether:
+IF E = 30 THEN GOTO noeffect
+E = E + 10
+IF E > 30 THEN E = 30
+GOTO etherb
+slamether:
+IF F = 20 THEN GOTO noeffect
+F = F + 10
+IF F > 20 THEN F = 20
+etherb:
 CLS
 PRINT "PP was restored!"
-GOTO bulbasaur
+GOTO item
 
 potion:
 CLS
 IF N < 1 THEN GOTO errorc
+IF G = 2700 THEN GOTO noeffect
 N = N - 1
-OT = 2700 - G
-IF OT > 20 THEN OT = 20
-PRINT "Pikachu gained"; OT; "HP!"
-G = G + OT
-GOTO bulbasaur
+GB = G
+G = G + 20
+IF G > 2700 THEN G = 2700
+GBB = G - GB
+PRINT "Pikachu gained"; GBB; "HP!"
+GOTO item
 
 hyper:
 CLS
-IF x < 1 THEN GOTO errorc
-x = x - 1
-U = 2700 - G
-IF U > 200 THEN U = 200
-PRINT "Pikachu gained"; U; "HP!"
-U = G + U
-GOTO bulbasaur
+IF X < 1 THEN GOTO errorc
+IF G = 2700 THEN GOTO noeffect
+X = X - 1
+GC = G
+G = G + 50
+IF G > 2700 THEN G = 2700
+GCC = G - GC
+PRINT "Pikachu gained"; GCC; "HP!"
+GOTO item
 
 bulbasaur:
 PRINT
@@ -250,8 +301,8 @@ IF G < 1 THEN GOTO lose
 GOTO bottom
 
 one:
-IF H$ = "SLP" THEN GOTO oneb
 PRINT "Enemy Bulbasaur used SLEEP POWDER!"
+IF H$ = "SLP" THEN GOTO oneb
 IF J$ = "PRZ" THEN GOTO sleeppowd
 GOTO sleeppow
 sleeppowd:
@@ -261,7 +312,7 @@ IF hitmissb = 1 THEN GOTO missb
 H$ = "SLP"
 PRINT "Pikachu fell asleep!"
 GOTO bottom
-oneb:             
+oneb:         
 PRINT "Pikachu is already asleep."
 GOTO bottom
 
@@ -310,7 +361,7 @@ solarbeam = solarbeam + 1
 GOTO bottom
 
 bottom:
-PRINT
+PRINT "Pikachu - "; G
 INPUT a
 GOTO begin
 
@@ -327,23 +378,43 @@ PRINT "No more!"
 GOTO bottom
 
 win:
+I = 0
 PRINT : PRINT "Enemy Bulbasaur fainted!"
-PRINT "You've won the Pokemon battle!"
-PRINT "HP:"; G; "0"
+PRINT "You've won the Pok‚mon battle!"
+PRINT "HP:"; G; I
+PLAY "T120O3L4C<L8GGL4G+L2GL4BC"
 END
 
 lose:
+G = 0
 PRINT : PRINT "Pikachu fainted!"
-PRINT "You've lost the Pokemon battle!"
-PRINT "HP:"; I; "0"
+losea:
+PRINT "You've lost the Pok‚mon battle!"
+PRINT "HP:"; G; I
+PLAY "T150O1L4L4CCL8CL4CDL8CL4CL8<BL4BL8B-L2B"
 END
+
+moved:
+PRINT "Bulbasaur - "; I
+GOTO bulbasaur
+
+item:
+PRINT "Pikachu - "; G
+GOTO bulbasaur
+
+noeffect:
+PRINT "It will have no effect."
+INPUT aaaa
+GOTO begin
 
 miss:
 PRINT "The attack missed!"
+PLAY "O1L4C"
 GOTO bulbasaur
 
 missb:
 PRINT "The attack missed!"
+PLAY "O1L4C"
 GOTO bottom
 
 slp:
@@ -351,6 +422,7 @@ CLS
 slpa = slpa - 1
 IF slpa = 0 THEN GOTO aslp
 PRINT "Pikachu is asleep!"
+PLAY "O1T250L64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64C"
 GOTO bulbasaur
 aslp:
 H$ = "NRM"
