@@ -32,7 +32,7 @@ PRINT "o"
 PLAY "L1D"
 LOCATE 6, 7
 PRINT "n"
-PLAY ">L4DT250"
+PLAY ">L4D"
 LOCATE 6, 8
 PRINT "!"
 
@@ -46,17 +46,24 @@ IF UCASE$(start$) = "C" THEN GOTO continue
 LOOP
 
 newgame:
+PRINT "Creating files. Please wait."
 OPEN "A:\PIKACHU.DAT" FOR OUTPUT AS #1
-PRINT #1, 2350
+PRINT #1, 23
 CLOSE
 OPEN "A:\MONEY.DAT" FOR OUTPUT AS #2
 PRINT #2, 3000
 CLOSE
 OPEN "A:\ENEMY.DAT" FOR OUTPUT AS #3
-PRINT #3, 1750
+PRINT #3, 17
 CLOSE
 OPEN "A:\LEVEL.DAT" FOR OUTPUT AS #4
 PRINT #4, 1
+CLOSE
+OPEN "A:\WIN.DAT" FOR OUTPUT AS #5
+PRINT #5, 0
+CLOSE
+OPEN "A:\LOSE.DAT" FOR OUTPUT AS #6
+PRINT #6, 0
 CLOSE
 
 continue:
@@ -74,6 +81,12 @@ CLOSE
 OPEN "A:\LEVEL.DAT" FOR INPUT AS #4
 INPUT #4, level
 CLOSE
+OPEN "A:\WIN.DAT" FOR INPUT AS #5
+INPUT #5, wins
+CLOSE
+OPEN "A:\LOSE.DAT" FOR INPUT AS #6
+INPUT #6, losses
+CLOSE
 
 starts:
 PRINT "Are you ready??? Press any key to begin."
@@ -84,11 +97,28 @@ E = 30
 F = 20
 H$ = "NRM"
 J$ = "NRM"
-K = 1
-L = 2
-M = 1
-N = 3
-X = 2
+K = 0
+IF level > 9 THEN K = 1
+IF level > 19 THEN K = 2
+L = 0
+IF level > 9 THEN L = 1
+IF level > 19 THEN L = 2
+IF level > 29 THEN L = 3
+IF level > 99 THEN L = 10
+M = 0
+IF level > 24 THEN M = 1
+IF level > 49 THEN M = 2
+IF level > 99 THEN M = 3
+N = 1
+IF level > 4 THEN N = 2
+IF level > 9 THEN N = 3
+IF level > 14 THEN N = 4
+IF level > 19 THEN N = 5
+X = 0
+IF level > 24 THEN X = 1
+YZ = 2
+IF level > 3 THEN YZ = 1
+IF level > 14 THEN YZ = 0
 slpa = 3
 solarbeam = 0
 
@@ -105,18 +135,18 @@ przatk = INT(RND * 2) + 1
 criticalbulb = INT(RND * 10) + 1
 PLAY "T120"
 IF G > pik THEN G = pik
-IF I > 2000 THEN I = 2000
 aa$ = ""
 bb$ = ""
 IF G < pik * .5 THEN aa$ = "    « HP"
 IF G < pik * .25 THEN aa$ = "    ¬ HP"
 IF I < bul * .5 THEN bb$ = "    « HP"
 IF I < bul * .25 THEN bb$ = "    ¬ HP"
-PRINT "STATUS:"
 PRINT "PIKACHU -", G; H$, aa$
 PRINT "BULBASAUR -", I; J$, bb$
-PRINT "WHICH ATTACK/ITEM?"
-PRINT "1 THUNDERSHOCK - ELE"
+PRINT "MONEY:"; cash; " LEVEL:"; level; " WINS:"; wins; " LOSSES:"; losses
+PRINT
+COLOR 14
+PRINT "1 THUNDERSHOCK - ELE                              <<< MOVES"
 PRINT "", C
 PRINT "2 THUNDER      - ELE"
 PRINT "", D
@@ -124,23 +154,24 @@ PRINT "3 QUICK ATTACK - NRM"
 PRINT "", E
 PRINT "4 SLAM         - NRM"
 PRINT "", F
-PRINT "5 POTION       - +20 HP"
+COLOR 11
+PRINT "5 POTION       - +20 HP                           <<< ITEMS"
 PRINT "", N
 PRINT "6 SUPER POTION - +50 HP"
 PRINT "", K
 PRINT "7 HYPER POTION - +200 HP"
 PRINT "", X
-PRINT "8 FULL HEAL    - ERASE SPECIAL STATUS"
+PRINT "8 MAX POTION   - +ALL HP"
+PRINT "", YZ
+PRINT "9 FULL HEAL    - ERASE SPECIAL STATUS"
 PRINT "", L
-PRINT "9 ETHER        - RESTORE 10 PP"
+PRINT "0 ETHER        - RESTORE 10 PP"
 PRINT "", M
-PRINT "0 STRUGGLE     - NRM (NO MOVES)"
+COLOR 14
+PRINT "A STRUGGLE     - NRM (OUT OF MOVES)"
+COLOR 15
 PRINT
-PRINT "A RULES        - HOW TO PLAY"
-PRINT
-PRINT "B FORFEIT      - LOSE IMMEDIATELY"
-PRINT
-PRINT "C STORE        - BUY ITEMS"
+PRINT "B OPTION MENU  - RULES, FORFEIT, AND ITEM STORE"
 DO
 B$ = INPUT$(1)
 IF UCASE$(B$) = "1" THEN GOTO shock
@@ -150,12 +181,28 @@ IF UCASE$(B$) = "4" THEN GOTO slam
 IF UCASE$(B$) = "5" THEN GOTO potion
 IF UCASE$(B$) = "6" THEN GOTO spotion
 IF UCASE$(B$) = "7" THEN GOTO hyper
-IF UCASE$(B$) = "8" THEN GOTO fullheal
-IF UCASE$(B$) = "9" THEN GOTO ether
-IF UCASE$(B$) = "0" THEN GOTO struggle
-IF UCASE$(B$) = "A" THEN GOTO rules
-IF UCASE$(B$) = "B" THEN GOTO losea
-IF UCASE$(B$) = "C" THEN GOTO store
+IF UCASE$(B$) = "8" THEN GOTO max
+IF UCASE$(B$) = "9" THEN GOTO fullheal
+IF UCASE$(B$) = "0" THEN GOTO ether
+IF UCASE$(B$) = "A" THEN GOTO struggle
+IF UCASE$(B$) = "B" THEN GOTO mlist
+LOOP
+
+mlist:
+CLS
+PRINT "A RULES        - HOW TO PLAY"
+PRINT
+PRINT "B FORFEIT      - LOSE IMMEDIATELY"
+PRINT
+PRINT "C STORE        - BUY ITEMS"
+PRINT
+PRINT "D MAIN MENU    - RETURN TO MAIN MENU"
+DO
+xb$ = INPUT$(1)
+IF UCASE$(xb$) = "A" THEN GOTO rules
+IF UCASE$(xb$) = "B" THEN GOTO losea
+IF UCASE$(xb$) = "C" THEN GOTO store
+IF UCASE$(xb$) = "D" THEN GOTO begin
 LOOP
 
 shock:
@@ -167,14 +214,17 @@ C = C - 1
 IF critical = 1 THEN GOTO cshock
 GOTO shockb
 cshock:
-I = I - 23
+shockpow = 23
+shockpow = shockpow * level / 10
+shockpower = CLNG(shockpow)
+I = I - shockpower
 PRINT "It's a Critical Hit!"
 shockb:
 IF J$ = "PRZ" THEN GOTO shocka
 IF prz = 1 THEN J$ = "PRZ"
 IF prz = 1 THEN PRINT "Enemy Bulbasaur was paralyzed!"
 shocka:
-I = I - 22
+I = I - shockpower
 PLAY "O1L64CEL32G"
 IF I < 1 THEN GOTO win
 PRINT "It's not very effective."
@@ -190,7 +240,10 @@ IF hitmissb = 1 THEN GOTO miss
 IF critical = 1 THEN GOTO cthunder
 GOTO thunderb
 cthunder:
-I = I - 67
+thunderpow = 67
+thunderpow = thunderpow * level / 10
+thunderpower = CLNG(thunderpow)
+I = I - thunderpower
 PRINT "It's a Critical Hit!"
 thunderb:
 IF J$ = "PRZ" THEN GOTO thundera
@@ -201,7 +254,7 @@ IF prz = 1 THEN PRINT "Enemy Bulbasaur was paralyzed!"
 IF prz = 2 THEN PRINT "Enemy Bulbasaur was paralyzed!"
 IF prz = 3 THEN PRINT "Enemy Bulbasaur was paralyzed!"
 thundera:
-I = I - 68
+I = I - thunderpower
 PLAY "O1L64CEL32G"
 IF I < 1 THEN GOTO win
 PRINT "It's not very effective."
@@ -216,10 +269,13 @@ E = E - 1
 IF critical = 1 THEN GOTO cqattack
 GOTO qattackb
 cqattack:
-I = I - 45
+quickpow = 45
+quickpow = quickpow * level / 10
+quickpower = CLNG(quickpow)
+I = I - quickpower
 PRINT "It's a Critical Hit!"
 qattackb:
-I = I - 45
+I = I - quickpower
 PLAY "O1L64CEL32G"
 IF I < 1 THEN GOTO win
 GOTO moved
@@ -234,10 +290,13 @@ IF hitmissb = 1 THEN GOTO miss
 IF critical = 1 THEN GOTO cslam
 GOTO slamb
 cslam:
-I = I - 91
+slampow = 91
+slampow = slampow * level / 10
+slampower = CLNG(slampow)
+I = I - slampower
 PRINT "It's a Critical Hit!"
 slamb:
-I = I - 91
+I = I - slampower
 PLAY "O1L64CEL32G"
 IF I < 1 THEN GOTO win
 GOTO moved
@@ -252,14 +311,17 @@ PRINT "Pikachu used STRUGGLE!"
 IF critical = 1 THEN GOTO cstruggle
 GOTO struggleb
 cstruggle:
-I = I - 32
+strpow = strpow * level / 10
+strpower = CLNG(strpow)
+I = I - strpower
 PRINT "It's a Critical Hit!"
 struggleb:
-I = I - 32
+I = I - strpower
 PLAY "O1L64CEL32G"
 PRINT "Pikachu got hit by recoil."
-G = G - 8
+G = G - strpower / 8
 IF critical = 1 THEN G = G - 8
+IF G < 1 THEN GOTO lose
 IF I < 1 THEN GOTO win
 GOTO moved
 
@@ -305,7 +367,7 @@ IF UCASE$(B$) = "3" THEN GOTO qattackether
 IF UCASE$(B$) = "4" THEN GOTO slamether
 GOTO kk
 shockether:
-IF C = 30 THEN GOTO noeffecta
+7 IF C = 30 THEN GOTO noeffecta
 C = C + 10
 IF C > 30 THEN C = 30
 PLAY "T250O2L8CCL64<CDEFGAB>CDEFGAB>CDEFGAB>C"
@@ -333,6 +395,19 @@ GOTO item
 noeffecta:
 M = M + 1
 GOTO noeffect
+
+max:
+CLS
+IF YZ < 1 THEN GOTO errorc
+IF G = pik THEN GOTO noeffect
+N = N - 1
+Pok = G
+G = pik
+Pok = pik - Pok
+PRINT "Pikachu gained"; Pok; "HP!"
+PLAY "T250O2L8CCL64<CDEFGAB>CDEFGAB>CDEFGAB>C"
+GOTO item
+
 
 potion:
 CLS
@@ -371,82 +446,93 @@ PRINT ""
 PRINT "1 Potion       - 300  - +20 HP"
 PRINT "2 Super Potion - 700  - +50 HP"
 PRINT "3 Hyper Potion - 1500 - +200 HP"
-PRINT "4 Full Heal    - 600  - ERASE SPECIAL STATUS"
-PRINT "5 Ether        - 3250 - +10 PP"
-PRINT "6 HP Up        - 9800 - MAX HP +23"
-PRINT "7 Main Menu"
+PRINT "4 Max Potion   - 8000 - +ALL HP"
+PRINT "5 Full Heal    - 600  - ERASE SPECIAL STATUS"
+PRINT "6 Ether        - 3250 - +10 PP"
+PRINT "7 HP Up        - 9800 - MAX HP +53"
+PRINT "8 Main Menu"
 DO
 buy$ = INPUT$(1)
 IF UCASE$(buy$) = "1" THEN GOTO buypotion
 IF UCASE$(buy$) = "2" THEN GOTO buysuper
 IF UCASE$(buy$) = "3" THEN GOTO buyhyper
-IF UCASE$(buy$) = "4" THEN GOTO buyfull
-IF UCASE$(buy$) = "5" THEN GOTO buyether
-IF UCASE$(buy$) = "6" THEN GOTO buyhpup
-IF UCASE$(buy$) = "7" THEN EXIT DO
+IF UCASE$(buy$) = "5" THEN GOTO buyfull
+IF UCASE$(buy$) = "6" THEN GOTO buyether
+IF UCASE$(buy$) = "7" THEN GOTO buyhpup
+IF UCASE$(buy$) = "8" THEN EXIT DO
 LOOP
 CLOSE #2
 GOTO begin
 
 buypotion:
 CLS
-INPUT "How many? (300 each) "; potionamount%
-totala = potionamount% * 300
+INPUT "How many? (300 each) "; potionamount
+totala = potionamount * 300
 IF totala > cash THEN GOTO errord
 cash = cash - totala
-N = N + potionamount%
+N = N + potionamount
 GOTO storea
 
 buysuper:
 CLS
-INPUT "How many? (700 each) "; spotionamount%
-totalb = spotionamount% * 700
+INPUT "How many? (700 each) "; spotionamount
+totalb = spotionamount * 700
 IF totalb > cash THEN GOTO errord
 cash = cash - totalb
-K = K + spotionamount%
+K = K + spotionamount
 GOTO storea
 
 buyhyper:
 CLS
-INPUT "How many? (1500 each) "; hpotionamount%
-totalc = hpotionamount% * 1500
+INPUT "How many? (1500 each) "; hpotionamount
+totalc = hpotionamount * 1500
 IF totalc > cash THEN GOTO errord
 cash = cash - totalc
-X = X + hpotionamount%
+X = X + hpotionamount
 GOTO storea
 
 buyfull:
 CLS
-INPUT "How many? (600 each) "; fullamount%
-totald = fullamount% * 600
+INPUT "How many? (600 each) "; fullamount
+totald = fullamount * 600
 IF totald > cash THEN GOTO errord
 cash = cash - totald
-L = L + fullamount%
+L = L + fullamount
 GOTO storea
 
 buyether:
 CLS
-INPUT "How many? (3250 each) "; etheramount%
-totale = etheramount% * 3250
+INPUT "How many? (3250 each) "; etheramount
+totale = etheramount * 3250
 IF totale > cash THEN GOTO errord
 cash = cash - totale
-M = M + etheramount%
+M = M + etheramount
 GOTO storea
 
 buyhpup:
 CLS
-INPUT "How many? (9800 each) "; hpamount%
-totalf = hpamount% * 9800
+PRINT "(This will take effect after the battle.)"
+INPUT "How many? (9800 each) "; hpamount
+totalf = hpamount * 9800
 IF totalf > cash THEN GOTO errord
 cash = cash - totalf
-pika = 23 * hpamount
+pika = 53 * hpamount
 pik = pik + pika
 OPEN "A:\PIKACHU.DAT" FOR INPUT AS #1
 INPUT #1, pik
 CLOSE
 GOTO storea
 
-bulbasaur:
+buymax:
+CLS
+INPUT "How many? (8000 each) "; maxamount
+totalg = maxamount * 8000
+IF totalg > cash THEN GOTO errord
+cash = cash - totalg
+YZ = YZ + maxamount
+GOTO storea
+
+Bulbasaur:
 PRINT
 IF solarbeam = 1 THEN GOTO three
 IF bulbattack = 4 THEN GOTO zero
@@ -549,7 +635,7 @@ PRINT "No PP for this move!"
 GOTO bottoma
 
 errorb:
-PLAY "O1L6C"
+PLAY "T250O4L64CP64EP64CP64EP64CP64EP64CP64EP64CP64EP64C"
 PRINT "Bulbasaur's paralyzed! It can't move!"
 GOTO bottom
 
@@ -563,47 +649,94 @@ SLEEP 1
 GOTO storea
 
 win:
+wins = wins + 1
 level = level + 1
-cashb = G * 11
+cashb = G * 3
 casha = cash + cashb
 I = 0
 pik = pik + 23
-bul = bul + 21
+bul = bul + 7
 PRINT : PRINT "Enemy Bulbasaur fainted!"
 PRINT "You've won the Pok‚mon battle!"
 PRINT "You have earned"; cashb; "money for winning!"
 PRINT "Your level is now"; level; "!"
 PRINT "HP: (PIK/BUL)"; G; I
 PLAY "T120O3L4C<L8GGL4G+L2GL4B>C"
-OPEN "A:\PIKACHU.DAT" FOR INPUT AS #1
-INPUT #1, pik
+PRINT "Press any key to save."
+SLEEP 1000
+CLS
+PRINT "Saving...Do not break application."
+PRINT : PRINT "Saved - 0/5"
+OPEN "A:\PIKACHU.DAT" FOR OUTPUT AS #1
+PRINT #1, pik
 CLOSE
-OPEN "A:\MONEY.DAT" FOR INPUT AS #2
-INPUT #2, casha
+LOCATE 3, 9
+PRINT "1"
+OPEN "A:\MONEY.DAT" FOR OUTPUT AS #2
+PRINT #2, casha
 CLOSE
-OPEN "A:\ENEMY.DAT" FOR INPUT AS #3
-INPUT #3, bul
+LOCATE 3, 9
+PRINT "2"
+OPEN "A:\ENEMY.DAT" FOR OUTPUT AS #3
+PRINT #3, bul
 CLOSE
-OPEN "A:\LEVEL.DAT" FOR INPUT AS #4
-INPUT #4, level
+LOCATE 3, 9
+PRINT "3"
+OPEN "A:\LEVEL.DAT" FOR OUTPUT AS #4
+PRINT #4, level
 CLOSE
+LOCATE 3, 9
+PRINT "4"
+OPEN "A:\WIN.DAT" FOR OUTPUT AS #5
+PRINT #5, wins
+CLOSE
+LOCATE 3, 9
+PRINT "5"
+PLAY "O3L32C<G>C>L8E"
+PRINT "Game Saved. Press any key."
 GOTO again
 
 lose:
 G = 0
 PRINT : PRINT "Pikachu fainted!"
 losea:
+bul = bul + 24
+cash = cash / 2
+cash = CLNG(cash)
+losses = losses + 1
 PRINT "You've lost the Pok‚mon battle!"
 PRINT "HP: (PIK/BUL)"; G; I
 PLAY "T150O1L4L4CCL8CL4CDL8CL4CL8<BL4BL8B-L2B"
+PRINT "Press any key to save"
+SLEEP 1000
+CLS
+PRINT "Saving...Do not break application."
+PRINT : PRINT "Saved - 0/3"
+OPEN "A:\MONEY.DAT" FOR OUTPUT AS #2
+PRINT #2, cash
+CLOSE
+LOCATE 3, 9
+PRINT "1"
+OPEN "A:\ENEMY.DAT" FOR OUTPUT AS #3
+PRINT #3, bul
+CLOSE
+LOCATE 3, 9
+PRINT "2"
+OPEN "A:\LOSE.DAT" FOR OUTPUT AS #6
+PRINT #6, losses
+CLOSE
+LOCATE 3, 9
+PRINT "3"
+PLAY "O3L32C<G>C>L8E"
+PRINT "Game Saved. Press any key."
 GOTO again
 
 moved:
-GOTO bulbasaur
+GOTO Bulbasaur
 
 item:
 PRINT "Pikachu - "; G
-GOTO bulbasaur
+GOTO Bulbasaur
 
 noeffect:
 PRINT "It will have no effect."
@@ -612,7 +745,7 @@ GOTO bottom
 miss:
 PRINT "The attack missed!"
 PLAY "O1L4C"
-GOTO bulbasaur
+GOTO Bulbasaur
 
 missb:
 PRINT "The attack missed!"
@@ -626,56 +759,113 @@ IF slpa = 0 THEN GOTO aslp
 PRINT "Pikachu is asleep!"
 PLAY "O1T250L64EP64EP64EP64EP64EP64EP64EP64EP64EP64EP64EP64EP64EP64EP64EP64EP64EP64EP64EP64EP64E"
 PLAY "O1T250L64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64Cp64C"
-GOTO bulbasaur
+GOTO Bulbasaur
 aslp:
 H$ = "NRM"
 PRINT "Pikachu woke up!"
 slpa = 3
-GOTO bulbasaur
+GOTO Bulbasaur
 
 rules:
 CLS
-PRINT "How to play the Pok‚mon Battle"
-PRINT
-PRINT "This game is for one player. The controls are rather simple."
-PRINT "The number indicated to the side of the move, item, or option"
-PRINT "initiates it. To the right is a short description of the"
-PRINT "control. Below that is the PP (Pok‚mon Power) or amount of the"
-PRINT "item."
-PRINT
-PRINT "Example:"
-PRINT "5 POTION       - +20 HP"
-PRINT "               3"
-PRINT
-PRINT "ITEMS"
-PRINT "5 different types of items can be used while playing. Each one"
-PRINT "does something different. They are erased when you save."
-PRINT "Buy more from the store. ***USE THEM WISELY***"
-PRINT
-PRINT "MOVES"
-PRINT "4 moves are available for damaging your opponent. Some are more"
-PRINT "powerful than others. Also, some moves are not very effective"
-PRINT "while others are super effective. Pay attention to the type!"
-PRINT
-PRINT "STORE"
-PRINT "This is where you can get more items. The price and use are"
-PRINT "listed to the right of each item. To accumulate more money, win"
-PRINT "more battles. Also, HP Up is used immediately."
-PRINT
-PRINT "SAVING"
-PRINT "A 3« floppy must be inserted in the drive to play and save."
-PRINT "Only one save file can exist at a time. If you choose New Game,"
-PRINT "the previous save file will be erased. To erase all save game"
-PRINT "data, open A:\ and delete all .DAT files. New ones will be"
-PRINT "created when you choose New Game. Don't erase PKMNBAT.EXE,"
-PRINT "INSTRUC.TXT, RULES1.LIS, RULES2.LIS, or PKMNBATT.OBJ."
-PRINT
-PRINT "Press any key to return to the main menu."
+OPEN "A:\RULES1.LIS" FOR INPUT AS #7
+INPUT #7, rulesaa$
+INPUT #7, rulesab$
+INPUT #7, rulesac$
+INPUT #7, rulesad$
+INPUT #7, rulesae$
+INPUT #7, rulesaf$
+INPUT #7, rulesag$
+INPUT #7, rulesah$
+INPUT #7, rulesai$
+INPUT #7, rulesaj$
+INPUT #7, rulesak$
+INPUT #7, rulesal$
+INPUT #7, rulesam$
+INPUT #7, rulesan$
+INPUT #7, rulesao$
+CLOSE
+OPEN "A:\RULES2.LIS" FOR INPUT AS #8
+INPUT #8, rulesba$
+INPUT #8, rulesbb$
+INPUT #8, rulesbc$
+INPUT #8, rulesbd$
+INPUT #8, rulesbe$
+INPUT #8, rulesbf$
+INPUT #8, rulesbg$
+INPUT #8, rulesbh$
+INPUT #8, rulesbi$
+INPUT #8, rulesbj$
+INPUT #8, rulesbk$
+INPUT #8, rulesbl$
+INPUT #8, rulesbm$
+INPUT #8, rulesbn$
+INPUT #8, rulesbo$
+INPUT #8, rulesbp$
+INPUT #8, rulesbq$
+INPUT #8, rulesbr$
+INPUT #8, rulesbs$
+INPUT #8, rulesbt$
+INPUT #8, rulesbu$
+INPUT #8, rulesbv$
+INPUT #8, rulesbw$
+INPUT #8, rulesbx$
+INPUT #8, rulesby$
+INPUT #8, rulesbz$
+INPUT #8, rulesca$
+INPUT #8, rulescb$
+INPUT #8, rulescc$
+INPUT #8, rulescd$
+INPUT #8, rulesce$
+INPUT #8, rulescf$
+INPUT #8, rulescg$
+INPUT #8, rulesch$
+INPUT #8, rulesci$
+CLOSE
+PRINT rulesaa$
+PRINT rulesab$
+PRINT rulesac$
+PRINT rulesad$; ", "; rulesae$; ", "; rulesaf$
+PRINT rulesag$
+PRINT rulesah$
+PRINT rulesai$
+PRINT rulesaj$
+PRINT rulesak$
+PRINT rulesal$
+PRINT rulesam$
+PRINT rulesan$
+PRINT rulesao$
+SLEEP 9999
+CLS
+PRINT rulesba$
+PRINT rulesbb$
+PRINT rulesbc$
+PRINT rulesbd$
+PRINT rulesbe$
+PRINT rulesbf$
+PRINT rulesbg$; ", "; rulesbh$; ", "; rulesbi$
+PRINT rulesbj$
+PRINT rulesbk$
+PRINT rulesbl$
+PRINT rulesbm$
+PRINT rulesbn$
+PRINT rulesbo$
+PRINT rulesbp$
+PRINT rulesbq$; ", "; rulesbr$
+PRINT rulesbs$; ", "; rulesbt$; ", "; rulesbu$; ", "; rulesbv$
+PRINT rulesbw$; ", "; rulesbx$; ", "; rulesby$
+PRINT rulesbz$; ", "; rulesca$
+PRINT rulescb$; ", "; rulescc$
+PRINT rulescd$; ", "; rulesce$
+PRINT rulescf$
+PRINT rulescg$
+PRINT rulesch$
+PRINT rulesci$
 SLEEP 1000
 GOTO begin
 
 again:
-SLEEP 5
+SLEEP 500
 CLS
 PRINT "Do you wish to play this game again?"
 againc:
@@ -687,5 +877,10 @@ GOTO againc
 ends:
 CLOSE #1
 CLOSE #2
+CLOSE #3
+CLOSE #4
+CLOSE #5
+CLOSE #6
 END
+                                 
 
