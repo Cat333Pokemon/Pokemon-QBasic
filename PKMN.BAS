@@ -13,9 +13,9 @@ C = 30
 D = 10
 E = 30
 F = 20
-G = 1900
+G = 2700
 H$ = "NRM"
-I = 2300
+I = 2000
 J$ = "NRM"
 K = 1
 L = 2
@@ -26,6 +26,7 @@ slpa = 3
 solarbeam = 0
 
 begin:
+IF G > 2700 THEN G = 2700
 CLS
 RANDOMIZE TIMER
 hitmissa = INT(RND * 10) + 1
@@ -137,7 +138,7 @@ GOTO bulbasaur
 slam:
 IF H$ = "SLP" THEN GOTO slp
 CLS
-PRINT "Pikachu used QUICK ATTACK!"
+PRINT "Pikachu used SLAM!"
 IF F < 1 THEN GOTO errora
 F = F - 1
 IF hitmissb = 1 THEN GOTO miss
@@ -155,7 +156,7 @@ spotion:
 CLS
 IF K < 1 THEN GOTO errorc
 K = K - 1
-V = 1900 - G
+V = 2700 - G
 IF V > 50 THEN V = 50
 PRINT "Pikachu gained"; O; "HP!"
 V = G + V
@@ -205,17 +206,17 @@ potion:
 CLS
 IF N < 1 THEN GOTO errorc
 N = N - 1
-O = 1900 - G
-IF O > 20 THEN O = 20
-PRINT "Pikachu gained"; O; "HP!"
-G = G + O
+OT = 2700 - G
+IF OT > 20 THEN OT = 20
+PRINT "Pikachu gained"; OT; "HP!"
+G = G + OT
 GOTO bulbasaur
 
 hyper:
 CLS
 IF x < 1 THEN GOTO errorc
 x = x - 1
-U = 1900 - G
+U = 2700 - G
 IF U > 200 THEN U = 200
 PRINT "Pikachu gained"; U; "HP!"
 U = G + U
@@ -260,7 +261,7 @@ IF hitmissb = 1 THEN GOTO missb
 H$ = "SLP"
 PRINT "Pikachu fell asleep!"
 GOTO bottom
-oneb:               
+oneb:             
 PRINT "Pikachu is already asleep."
 GOTO bottom
 
