@@ -13,15 +13,15 @@ C = 30
 D = 10
 E = 30
 F = 20
-G = 190
+G = 1900
 H$ = "NRM"
-I = 230
+I = 2300
 J$ = "NRM"
 K = 1
 L = 2
 M = 1
 N = 3
-X = 2
+x = 2
 slpa = 3
 solarbeam = 0
 
@@ -57,7 +57,7 @@ PRINT "", M
 PRINT "8 POTION       - +20 HP"
 PRINT "", N
 PRINT "9 HYPER POTION - +200 HP"
-PRINT "", X
+PRINT "", x
 DO
 B$ = INPUT$(1)
 IF UCASE$(B$) = "1" THEN GOTO shock
@@ -155,7 +155,7 @@ spotion:
 CLS
 IF K < 1 THEN GOTO errorc
 K = K - 1
-V = 190 - G
+V = 1900 - G
 IF V > 50 THEN V = 50
 PRINT "Pikachu gained"; O; "HP!"
 V = G + V
@@ -205,7 +205,7 @@ potion:
 CLS
 IF N < 1 THEN GOTO errorc
 N = N - 1
-O = 190 - G
+O = 1900 - G
 IF O > 20 THEN O = 20
 PRINT "Pikachu gained"; O; "HP!"
 G = G + O
@@ -213,9 +213,9 @@ GOTO bulbasaur
 
 hyper:
 CLS
-IF X < 1 THEN GOTO errorc
-X = X - 1
-U = 190 - G
+IF x < 1 THEN GOTO errorc
+x = x - 1
+U = 1900 - G
 IF U > 200 THEN U = 200
 PRINT "Pikachu gained"; U; "HP!"
 U = G + U
