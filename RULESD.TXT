@@ -1,0 +1,20 @@
+How to play the Pokémon Battle
+
+This game is for one player. The controls are rather simple. The number indicated to the side of the move, item, or option initiates it. To the right is a short description of the control. Below that is the PP (Pokémon Power) or amount of the item.
+
+Example:
+5 POTION       - +20 HP
+               3
+
+ITEMS
+6 different types of items can be used while playing. Each one does something different.
+***USE THEM WISELY***
+
+MOVES
+4 moves are available for damaging your opponent. Some are more powerful than others. Also, some moves are not very effective, while others are super effective. Pay attention to the type!
+
+STORE
+Use the store to purchase items. The way to obtain money is to win battles. The use and price are to the right of the item.
+
+SAVING
+When you win or lose a battle, your game data is saved. You keep the money you earned, your HP maximum, your enemy's HP maximum, your win/lose count, and your level. However, items are not saved, so any that are left over will be erased. There is a good part: when you start a new battle, the default items will regenerate, so you get free items every battle. Don't erase ANY of these: PKMNBATT.EXE, PKMNBATT.BAS, RULES1.LIS, RULES2.LIS, or RULES.TXT
